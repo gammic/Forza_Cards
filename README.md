@@ -57,7 +57,7 @@ python.exe .\game_server.py
 ```
 **Attenzione**: All'interno del game server modificare l'indirizzo IP del server (SERVER_IP) con l'IP assegnato precedentemente al name server, fare la stessa cosa con il client.
 
-## 3. Avvia i client
+### 3. Avvia i client
 In nuovi terminali (uno per ogni giocatore), avvia il client:
 ```bash
 python.exe .\game.py
