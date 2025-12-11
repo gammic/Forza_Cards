@@ -1,9 +1,9 @@
-# 🏎️ ForzaCards - Distributed Multiplayer Card Game
+# ForzaCards - Distributed Multiplayer Card Game
 
 **ForzaCards** è un gioco di carte strategico multiplayer basato sui dati reali delle auto di *Forza Horizon 5*.
 Il progetto è un'implementazione pratica di un **Sistema Distribuito Client-Server**, sviluppato in Python utilizzando il middleware **Pyro5** per la comunicazione remota e **Pygame** per l'interfaccia grafica.
 
-![Gameplay Screenshot](screenshots/gameplay.png)
+![Gameplay Screenshot](gameplay_img.png)
 *(Inserisci qui uno screenshot della board di gioco)*
 
 ## 📋 Funzionalità Principali
