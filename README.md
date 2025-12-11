@@ -97,4 +97,6 @@ Questo progetto è stato sviluppato come parte dell'esame di Algoritmi Distribui
 * Pattern architetturali distribuiti.
 * Pattern Strategy (gestione Bonus) e State (fasi di gioco).
 
+**Disclaimer**: *ForzaCards is a fan-made educational project. 'Forza Horizon' and related car data are property of Microsoft Corporation and Playground Games. This project is not affiliated with or endorsed by them.*
+
 *Developed by Marco Michellini*
