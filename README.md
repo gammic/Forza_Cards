@@ -4,7 +4,6 @@
 Il progetto è un'implementazione pratica di un **Sistema Distribuito Client-Server**, sviluppato in Python utilizzando il middleware **Pyro5** per la comunicazione remota e **Pygame** per l'interfaccia grafica.
 
 ![Gameplay Screenshot](gameplay_img.png)
-*(Inserisci qui uno screenshot della board di gioco)*
 
 ## 📋 Funzionalità Principali
 
@@ -34,6 +33,9 @@ Il progetto è un'implementazione pratica di un **Sistema Distribuito Client-Ser
     ```bash
     pip install -r requirements
     ```
+3. **Scarica le immagini e il db:**
+Le immagini possono essere scaricate da [qui](https://drive.google.com/drive/folders/1yNYbim0UUUNJyQUy9mtiA1mm8K988m9k?usp=drive_link),
+mentre il db da [qui](https://drive.google.com/file/d/1GLCySHWAn7BgHaeIUSMCBbSEFD5VhF7s/view?usp=drive_link).
 
 ## 🚀 Come Avviare il Gioco
 
@@ -77,13 +79,15 @@ python.exe .\game.py
 * *game.py*: Client grafico, gestione input e polling di rete.
 * *carcard.py*: Classe per la gestione e il rendering delle carte.
 * *deck.py*: Logica di gestione mazzo e algoritmo di pesca.
-* *player.py*: Logica dell'agente IA.
+* *AI.py*: Logica dell'agente IA.
 * *location.py*: Gestione delle location e calcolo dei bonus.
 * *db_cleaned.csv*: Database delle statistiche delle auto.
   
 **Altri file di minore importanza**:
 *  *add_drivetrain.py*: Aggiunta dell'attributo relativo alla trazione, non presente nel database originale
-*  *db_cleaner.py*: 
+*  *db_cleaner.py*: Pulizia del database originale
+*  *img_downloader*: Scraping del sito forzawiki per ottenere le immagini delle auto.
+* *statistics_study*: EDA di alcuni dati di gioco, con risultati visibili nella cartella delle immagini (graphs).
 
 ## 🎓 Note Accademiche
 Questo progetto è stato sviluppato come parte dell'esame di Algoritmi Distribuiti. Dimostra l'uso di:
