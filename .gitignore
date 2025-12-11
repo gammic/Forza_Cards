@@ -1,0 +1,19 @@
+# Ambienti virtuali
+venv/
+.venv/
+env/
+
+# PyCharm
+.idea/
+
+# Python cache
+__pycache__/
+
+# Immagini
+images
+
+# db
+Forza_Horizon_Cars.csv
+players_list.csv
+db.csv
+db_cleaned.csv
