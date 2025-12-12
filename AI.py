@@ -26,11 +26,6 @@ class AI:
             if total_pi <= energy:
                 valid_moves.append(combo)
 
-        if not valid_moves:
-            # Caso raro (fallback): se nessuna combo è valida, prendi 3 carte a caso 
-            # (o gestisci il 'passo' turno se previsto, qui forziamo per evitare crash)
-            valid_moves.append(possible_combinations[0] if possible_combinations else [])
-
         # 3. Scegli la mossa in base alla difficoltà
         chosen_combo = None
 
@@ -79,8 +74,10 @@ class AI:
                         card = perm[i][1]  # Oggetto carta
                         loc = locations[i]  # Oggetto location
 
-                        # Calcola valore senza bonus
-                        stat_val = card.get_stat(loc.stat)
+                        # Calcola valore con bonus
+                        base_val = card.get_stat(loc.stat)
+                        bonuses_card = loc.check_criteria(card)
+                        stat_val = card.calc_real_val(bonuses_card, base_val)
 
                         current_score += stat_val
 
