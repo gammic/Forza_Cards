@@ -86,7 +86,7 @@ python.exe .\game.py
 **Altri file di minore importanza**:
 *  *add_drivetrain.py*: Aggiunta dell'attributo relativo alla trazione, non presente nel database originale
 *  *db_cleaner.py*: Pulizia del database originale
-*  *img_downloader*: Scraping del sito forzawiki per ottenere le immagini delle auto.
+*  *img_downloader*: Scraping per ottenere le immagini delle auto.
 * *statistics_study*: EDA di alcuni dati di gioco, con risultati visibili nella cartella delle immagini (graphs).
 
 ## 🎓 Note Accademiche
