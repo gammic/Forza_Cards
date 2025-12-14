@@ -86,7 +86,6 @@ class AI:
                         chosen_combo = perm
 
         # 4. Formatta l'output per il Server
-        # Il server si aspetta: { "LocationName": indice_carta }
         result = {}
         for i in range(3):
             # chosen_combo[i] è una tupla (indice_originale, oggetto_carta)

@@ -76,7 +76,7 @@ class Deck:
                     c.car_class in available_classes and available_pi[0] <= c.pi <= available_pi[1]]
         if current_hand:
             keep_cards = [c for c in current_hand if
-                     c.car_class in available_classes and available_pi[0] <= c.pi <= available_pi[1]]
+                          c.car_class in available_classes and available_pi[0] <= c.pi <= available_pi[1]]
         else:
             keep_cards = []
         n = 5 - len(keep_cards)
@@ -110,9 +110,9 @@ class Deck:
         drive_weights = [category_drive_counts[cat] / total for cat in categories_drive]
         cats["drives"] = [categories_drive, drive_weights]
         attempts_schedule = [
-            (100, 5),  # Primi 100 tentativi: cerchiamo l'eccellenza (5 combo)
-            (50, 3),  # Altri 50 tentativi: ci accontentiamo di 3 combo
-            (50, 1)  # Ultimi 50 tentativi: basta che sia giocabile (1 combo)
+            (100, 5),
+            (50, 3),
+            (50, 1)
         ]
         for max_iter, min_required_combos in attempts_schedule:
             for _ in range(max_iter):

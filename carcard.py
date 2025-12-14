@@ -1,5 +1,4 @@
 import pygame
-import sys
 import re
 
 GREEN = (35, 195, 24)
@@ -59,6 +58,9 @@ class CarCard:
             self.font = pygame.font.Font("fonts/font.ttf", 24)
 
     def get_stat(self, stat):
+        """
+        Ritorna la stat richiesta
+        """
         stats_dict = {
             "speed": self.speed,
             "acceleration": self.acceleration,
@@ -75,6 +77,9 @@ class CarCard:
         self.played = True
 
     def calc_real_val(self, bonuses, val):
+        """
+        Calcola il valore con i bonus
+        """
         final_val = val
         for bonus in bonuses:
             if bonus:
@@ -157,7 +162,7 @@ class CarCard:
                 panel_x = (WIDTH - CARD_W) // 2
                 panel_y = (HEIGHT - CARD_H)
                 overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-                overlay.fill((0, 0, 0, 180))  # Nero con opacità (180 su 255)
+                overlay.fill((0, 0, 0, 180))
                 screen.blit(overlay, (0, 0))
             else:
                 panel_x = x
@@ -170,22 +175,18 @@ class CarCard:
             # Coordinate stimate per il box bianco nel template 500x300
             if hasattr(self, 'image'):
                 img_w, img_h = 280, 155
-                # Centriamo l'immagine mantenendo l'aspect ratio se possibile,
-                # oppure scaliamo brutalmente:
                 scaled_img = pygame.transform.scale(self.image, (img_w, img_h))
                 screen.blit(scaled_img, (panel_x + 20, panel_y + 84))
 
             # 3. Classe (Lettera nel box in alto a sinistra)
-            # Usiamo un font più grande per la lettera singola
             class_text = title_font.render(self.car_class, True, (255, 255, 255))
-            # Centra nel quadratino colorato
+            # Centra nel quadrato colorato
             screen.blit(class_text, (panel_x + 24, panel_y + 25))
 
             # 4. Nome Auto (Intestazione in alto)
             # Combina Anno + Produttore + Modello
             upper_name = f"{self.year} {self.manufacturer}"
             lower_name = f"{self.model}"
-            # Se è troppo lungo, va a capo
             upper_name_surf = FONT_MEDIUM.render(upper_name, True, class_color)
             screen.blit(upper_name_surf, (panel_x + 70, panel_y + 14))
             max_width = 250
@@ -196,9 +197,6 @@ class CarCard:
                     panel_x + 70, panel_y + 15 + upper_name_surf.get_height() + i * (FONT_MEDIUM.get_height())))
 
             # 5. Metadati (Colonna Destra in alto)
-            # Il template ha già le scritte "RARITY", "COUNTRY", "DRIVE".
-            # Noi scriviamo solo i valori sotto o a fianco.
-            # Coordinate allineate alle etichette del template:
             RARITY_CX = panel_x + 343
             COUNTRY_CX = panel_x + 404
             DRIVE_CX = panel_x + 466
@@ -225,8 +223,7 @@ class CarCard:
             screen.blit(drive_val, draw_centered(drive_val, DRIVE_CX, META_Y))
 
             # 6. Statistiche (Colonna Destra - Barre)
-            # Le coordinate y devono scendere per allinearsi ai box del template
-            stats_start_x = panel_x + 371  # Spostato a destra per lasciare spazio alle scritte "SPEED" ecc del template
+            stats_start_x = panel_x + 371
             stats_start_y = panel_y + 98
             bar_w = 87  # Larghezza barra
             bar_h = 13.5  # Altezza barra
@@ -288,7 +285,7 @@ class CarCard:
 
                 text = FONT_SMALL.render(f"{label}: {value}", True, current_stat_color)
 
-                # Coordinate (logica originale divisa in 2 colonne)
+                # Coordinate
                 if i < 3:
                     screen.blit(text, (x + STATS_OFFSET_X, y + STATS_START + i * STATS_OFFSET_Y))
                 else:
@@ -297,6 +294,6 @@ class CarCard:
             if self.played:
                 card_rect = pygame.Rect(x, y, card_width, card_height)
                 overlay = pygame.Surface((card_width, card_height))
-                overlay.set_alpha(150)  # trasparenza
-                overlay.fill((128, 128, 128))  # colore grigio
+                overlay.set_alpha(150)
+                overlay.fill((128, 128, 128))
                 screen.blit(overlay, card_rect)

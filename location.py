@@ -23,6 +23,7 @@ class Location:
         self.selected = False
 
     def draw_location(self, screen, x, y):
+
         def wrap_text(text, font, max_width):
             words = text.split(' ')
             lines = []
@@ -106,6 +107,9 @@ class Location:
         return matches
 
     def pick_bonus(self, turn, categories):
+        """
+        Estrae casualmente i bonus della location
+        """
         if not self.bonus_ass:
             bonus_car_type = random.choices(categories["car_types"][0], weights=categories["car_types"][1], k=1)[0]
             bonus_rarity = random.choices(categories["rarities"][0], weights=categories["rarities"][1])[0]

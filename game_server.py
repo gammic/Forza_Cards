@@ -20,7 +20,6 @@ LOCATIONS_LIST = [
     Location("offroad_trail", "offroad", load_image=False),
     Location("brake_test", "braking", load_image=False),
 ]
-# Font
 ENERGIES = [1330, 1875, 2150, 2440, 2680]
 MAX_HP = 10
 PLAYERS_LIST = "players_list.csv"
@@ -45,19 +44,31 @@ class GameServer:
 
     # ---------------- player & lobby management ----------------
     def load_players(self, players_list):
+        """
+        Carica lo storico dei giocatori passati
+        """
         players = pd.read_csv(players_list)
         return players
 
     def get_random_card(self):
+        """
+        Ritorna una carta casuale
+        """
         temp_deck = Deck(DB_CSV)
         card = random.choice(temp_deck.cards)
         return self._card_summary(card)
 
     def list_best_players(self):
+        """
+        Ritorna la lista dei migliori giocatori per la visualizzazione della classifica nel main menu
+        """
         best_players = self.players_list.sort_values(by='points', ascending=False).head(5)
         return best_players.to_dict(orient='records')
 
     def register_player(self, player_name):
+        """
+        Registra il giocatore e inizializza il primo turno, se 2 giocatori sono registrati allora inizia la partita
+        """
         with self.lock:
             if player_name not in self.order:
                 self.order.append(player_name)
@@ -78,7 +89,9 @@ class GameServer:
         return {"status": True, "n_players": len(self.order)}
 
     def unregister_player(self, player_name):
-
+        """
+        Permette di eliminare il giocatore a fine partita
+        """
         with self.lock:
             del self.players[str(player_name)]
             self.order.remove(str(player_name))
@@ -89,9 +102,15 @@ class GameServer:
             return {"ok": True}
 
     def game_start(self):
+        """
+        Controllo per conoscere se il game è iniziato
+        """
         return self.game_ready
 
     def register_ai_game(self, player_name, difficulty):
+        """
+        Variante per registrare il giocatore nel caso di partita PvE
+        """
         with self.lock:
             # 1. Registra il giocatore umano (come register_player normale)
             self.players = {}
@@ -145,7 +164,8 @@ class GameServer:
 
     def submit_turn(self, player_name, played_cards):
         """
-        played_cards = {location_name: card_name, ...}
+        Registra la mossa del giocatore (in caso di PvE calcola la mossa dell'IA) e chiama gli internals
+        per risolvere e avanzare al turno successivo
         """
         with self.lock:
             if not self.player_choices[player_name]:
@@ -189,6 +209,9 @@ class GameServer:
             }
 
     def get_end_turn_info(self):
+        """
+        Funzione usata per il polling dei risultati
+        """
         with self.lock:
             if self.turn_resolved:  # Turno finito
                 self.turn_resolved = False
@@ -198,7 +221,7 @@ class GameServer:
 
     # ---------------- internal helpers ----------------
     def _card_summary(self, card):
-        """Restituisce un dizionario serializzabile per Pyro."""
+        """Restituisce un dizionario serializzabile per Pyro"""
         if isinstance(card, dict):
             return card
         return {
@@ -222,6 +245,7 @@ class GameServer:
         }
 
     def _loc_summary(self, l):
+        """Restituisce un dizionario serializzabile per Pyro"""
         return {
             "name": l.name,
             "stat": l.stat,
@@ -232,6 +256,7 @@ class GameServer:
         }
 
     def _update_players_stats(self, winner, loser, points):
+        """Aggiorna le stat dei giocatori a fine partita"""
         for player in [winner, loser]:
             if player not in self.players_list['name'].values and player != self.ai_player.name:
                 # se il giocatore non esiste, aggiungilo
@@ -249,6 +274,7 @@ class GameServer:
         self.players_list.to_csv(PLAYERS_LIST, index=True, index_label=False)
 
     def _clean_internals(self):
+        """Resetta tutti i parametri a fine partita"""
         self.players = {}
         self.order = []
         self.ai_player = None
@@ -348,7 +374,7 @@ class GameServer:
         return [Location(l.name, l.stat, load_image=False) for l in random.sample(LOCATIONS_LIST, 3)]
 
     def _compare_cards(self, location, c1, c2):
-        """Restituisce il nome del giocatore vincente o None"""
+        """Confronta le carte"""
         attr = location.stat
         v1 = c1.get_stat(attr)
         v2 = c2.get_stat(attr)

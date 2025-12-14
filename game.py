@@ -34,7 +34,6 @@ CARD_SIZE = (200, 300)
 CARDS_OFFSET = (100, 300)
 
 # Finestra
-
 pygame.display.set_caption("ForzaCards")
 info = pygame.display.Info()
 SCREEN_SIZE = (1536, 793)
@@ -45,7 +44,7 @@ if system == "Windows":
     # --- Metodo nativo Windows ---
     screen = pygame.display.set_mode((1280, 720), pygame.RESIZABLE)
     hwnd = pygame.display.get_wm_info()['window']
-    ctypes.windll.user32.ShowWindow(hwnd, 3)  # SW_MAXIMIZE = 3
+    ctypes.windll.user32.ShowWindow(hwnd, 3)
 else:
     # --- Metodo cross-platform ---
     screen = pygame.display.set_mode((WIDTH, HEIGHT - 80), pygame.RESIZABLE)
@@ -62,7 +61,6 @@ FONT_TITLE = pygame.font.Font("fonts/font.ttf", 40)
 FONT_BUTTONS = pygame.font.Font("fonts/font.ttf", 48)
 
 # Locations
-
 locations = [
     Location("quarter_mile", "launch"),
     Location("half_mile", "acceleration"),
@@ -149,6 +147,9 @@ frame_images = {
 
 
 def draw_locations(turn, current_locations, cat, phase, selected_location=None):
+    """
+    Disegna le location gestendo la selezione
+    """
     if phase == "card_sel" or phase == "end_turn":
         for i, location in enumerate(current_locations):
             if location.name == selected_location:
@@ -157,6 +158,9 @@ def draw_locations(turn, current_locations, cat, phase, selected_location=None):
 
 
 def draw_hand(hand, loc=None):
+    """
+    Disegna la mano gestendo la selezione e le possibili stat aumentate
+    """
     x_offset = CARDS_OFFSET[0]
     for card in hand:
         card.draw_card(screen, x_offset, HEIGHT - 300, frame_images, FONT_SMALL, FONT_MEDIUM, FONT_LARGE, FONT_TITLE,
@@ -167,6 +171,7 @@ def draw_hand(hand, loc=None):
 def draw_info(turn, player1, player2, phase, not_play_msg=None, results=None):
     """
     results = {"location": location_name, "played_cards": {"pl_name": card}, "winner" : winner_name, "damage" : damage_value}
+    Gestisce il disegno di tutte le informazioni a seconda della fase
     """
     global partial_energy, player_name, opponent_name
     p1_energy = player1["energy"]
@@ -272,6 +277,9 @@ def draw_info(turn, player1, player2, phase, not_play_msg=None, results=None):
 
 
 def main_menu(server):
+    """
+    Disegna il menu principale
+    """
     global player_name
 
     input_box = pygame.Rect(50, HEIGHT // 2 + 20, 300, 50)
@@ -499,6 +507,9 @@ def main_menu(server):
 
 
 def end_game(results, server):
+    """
+    Disegna la schermata di fine partita
+    """
     global player_name
     while True:
         try:
@@ -552,6 +563,9 @@ def end_game(results, server):
 
 
 def rebuild_hand(light_hand, selected_cards=None):
+    """
+    Deserializza la mano ricreando gli oggetti CarCard
+    """
     hand = []
     for i, light_card in enumerate(light_hand):
         card = CarCard(
@@ -582,6 +596,9 @@ def rebuild_hand(light_hand, selected_cards=None):
 
 
 def rebuild_loc(loc, sel):
+    """
+    Deserializza le location ricreando gli oggetti Location
+    """
     new_loc = []
     for i, l in enumerate(loc):
         new_l = Location(
@@ -599,6 +616,9 @@ def rebuild_loc(loc, sel):
 
 
 def main_loop():
+    """
+    Loop del gioco
+    """
     global player_name, partial_energy, opponent_name
     # Connessione server
     ns = Pyro5.api.locate_ns(host="192.168.178.83")
@@ -659,8 +679,8 @@ def main_loop():
                             # Calcola rect della carta nella mano
                             card_rect = pygame.Rect(x_offset, HEIGHT - 300, CARD_SIZE[0], CARD_SIZE[1])
                             if card_rect.collidepoint(mouse_x, mouse_y):
-                                card_to_show = c  # Imposta la carta da mostrare
-                                break  # Trovata, esci dal ciclo
+                                card_to_show = c
+                                break
                             x_offset += CARDS_OFFSET[1]
                     elif event.button == 1:
                         # selezione location
@@ -769,6 +789,9 @@ def main_loop():
 
 
 def hp_to_angle(current_hp):
+    """
+    Utility per convertire la vita in angolo della lancetta del contagiri
+    """
     hp_ratio = current_hp / MAX_HP
     angle = MIN_ANGLE + (MAX_ANGLE - MIN_ANGLE) * (1 - hp_ratio)
     return angle
